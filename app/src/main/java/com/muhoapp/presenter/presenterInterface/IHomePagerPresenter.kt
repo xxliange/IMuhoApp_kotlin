@@ -1,0 +1,16 @@
+package com.muhoapp.presenter.presenterInterface
+
+interface IHomePagerPresenter {
+    /**
+     * 获取banner图数据
+     */
+    fun getLooperData()
+    /**
+     * 获取球星数据
+     */
+    fun getStarData()
+    /**
+     * 获取精品专辑列表数据
+     */
+    fun getPayAlbumData()
+}

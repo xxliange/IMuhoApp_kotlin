@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MuhoApp</string>
+    <string name="text_navigation_home">首页</string>
+    <string name="text_navigation_hot">热点</string>
+    <string name="text_navigation_mine">我的</string>
+    <string name="text_test">text测试测试测试text测试测试测试text测试测试测试text测试测试测试</string>
+</resources>
