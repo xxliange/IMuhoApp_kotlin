@@ -12,33 +12,18 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <LinearLayout
+            android:id="@+id/item_home_star_view"
             android:layout_width="match_parent"
             android:layout_height="90dp">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:padding="2dp">
                 <ImageView
                     android:id="@+id/item_home_star_avatar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_launcher"
                     />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="球星VIP"
-                    android:layout_alignParentEnd="true"
-                    android:textSize="10sp"
-                    android:textColor="@color/colorWhite"
-                    android:paddingStart="4dp"
-                    android:paddingEnd="4dp"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginEnd="4dp"
-                    android:textStyle="bold"
-                    android:background="@drawable/item_home_star_viptext_back"
-                    tools:ignore="SmallSp" />
                 <ImageView
                     android:id="@+id/item_home_star_sy"
                     android:layout_width="match_parent"
@@ -61,5 +46,21 @@
             android:textStyle="bold"
             android:textColor="@color/colorBlack"
             android:ellipsize="end" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="球星VIP"
+            android:layout_gravity="center"
+            android:textSize="10sp"
+            android:textColor="@color/colorWhite"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="4dp"
+            android:textStyle="bold"
+            android:background="@drawable/item_home_star_viptext_back"
+            tools:ignore="SmallSp" />
     </LinearLayout>
 </LinearLayout>
