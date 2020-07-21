@@ -1,8 +1,6 @@
 package com.muhoapp.model
 
-import com.muhoapp.model.domin.home.BannerData
-import com.muhoapp.model.domin.home.PayAlbumData
-import com.muhoapp.model.domin.home.StarData
+import com.muhoapp.model.domin.home.*
 import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.http.GET
@@ -23,4 +21,10 @@ interface Api {
 
     @GET("getTeachingAlbum")
     fun getPayAlbumData() : Observable<BaseResponse<List<PayAlbumData>>>
+
+    @GET("getHotKeyWords")
+    fun getSkillSort() : Observable<BaseResponse<List<SkillSortData>>>
+
+    @GET("searchContent")
+    fun getSkillContent(@Query("keywords") keywords: String , @Query("l") l : Int, @Query("type") type : Int) : Observable<BaseResponse<List<SkillContentData>>>
 }

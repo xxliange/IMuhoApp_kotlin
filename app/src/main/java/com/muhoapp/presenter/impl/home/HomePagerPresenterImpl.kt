@@ -5,6 +5,7 @@ import com.muhoapp.base.IBaseViewPresenter
 import com.muhoapp.model.BaseObserver
 import com.muhoapp.model.domin.home.BannerData
 import com.muhoapp.model.domin.home.PayAlbumData
+import com.muhoapp.model.domin.home.SkillSortData
 import com.muhoapp.model.domin.home.StarData
 import com.muhoapp.presenter.presenterInterface.IHomePagerPresenter
 import com.muhoapp.utils.RetrofitManger
@@ -66,6 +67,24 @@ class HomePagerPresenterImpl: IHomePagerPresenter, IBaseViewPresenter<IHomePager
                 override fun onSuccess(data: List<PayAlbumData>) {
                     for(callback in callbacks){
                         callback.onPayAlbumDataLoad(data)
+                    }
+                }
+
+            })
+    }
+
+    override fun getSkillSort() {
+        RetrofitManger.instance!!.getApi()
+            .getSkillSort()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : BaseObserver<List<SkillSortData>>(){
+                override fun onFailure(e: Throwable?, message: String) {
+                }
+
+                override fun onSuccess(data: List<SkillSortData>) {
+                    for (callback in callbacks){
+                        callback.onSkillSortDataLoad(data)
                     }
                 }
 

@@ -1,8 +1,6 @@
 package com.muhoapp.view.home
 
-import com.muhoapp.model.domin.home.BannerData
-import com.muhoapp.model.domin.home.PayAlbumData
-import com.muhoapp.model.domin.home.StarData
+import com.muhoapp.model.domin.home.*
 
 interface IHomePagerCallback {
     /**
@@ -17,4 +15,8 @@ interface IHomePagerCallback {
      * 获取精品专辑列表数据
      */
     fun onPayAlbumDataLoad(data : List<PayAlbumData>)
+    /**
+     * 获取技术分类标签
+     */
+    fun onSkillSortDataLoad(data : List<SkillSortData>)
 }

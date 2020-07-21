@@ -8,16 +8,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import butterknife.BindView
+import com.google.android.material.tabs.TabLayout
 import com.muhoapp.R
 import com.muhoapp.base.BaseFragment
-import com.muhoapp.model.domin.home.BannerData
-import com.muhoapp.model.domin.home.PayAlbumData
-import com.muhoapp.model.domin.home.StarData
+import com.muhoapp.model.domin.home.*
 import com.muhoapp.presenter.impl.home.HomePagerPresenterImpl
-import com.muhoapp.ui.adapter.home.HomeColumnAdapter
-import com.muhoapp.ui.adapter.home.HomeLooperPagerAdapter
-import com.muhoapp.ui.adapter.home.HomePayAlbumListAdapter
-import com.muhoapp.ui.adapter.home.HomeStarListAdapter
+import com.muhoapp.ui.adapter.home.*
 import com.muhoapp.utils.PresenterManager
 import com.muhoapp.view.home.IHomePagerCallback
 
@@ -40,6 +36,12 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
 
     @BindView(R.id.home_column_view)
     lateinit var columnView : RecyclerView
+
+    @BindView(R.id.home_sort_tab)
+    lateinit var sortTab : TabLayout
+
+    @BindView(R.id.home_sort_view)
+    lateinit var sortView : ViewPager
 
     override fun getSubPresenter(): HomePagerPresenterImpl? {
         return PresenterManager.getHomePagerPresenterImpl()
@@ -83,6 +85,7 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
     private var starAdapter: HomeStarListAdapter? = null
     private var payAlbumAdapter: HomePayAlbumListAdapter? = null
     private var columnAdapter : HomeColumnAdapter? = null
+    private var skillSortAdpater : HomeSkillSortPagerAdapter? = null
 
     /**
      * 初始化view
@@ -94,14 +97,15 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
         setStarAdapter()
         setPayAlbumAdapter()
         setColumnAdpater()
+        setSortAdapter()
     }
 
-    fun setLooperAdapter() {
+    private fun setLooperAdapter() {
         looperAdapter = HomeLooperPagerAdapter()
         looper.adapter = looperAdapter
     }
 
-    fun setStarAdapter() {
+    private fun setStarAdapter() {
         val linearLayout = LinearLayoutManager(context)
         linearLayout.orientation = LinearLayoutManager.HORIZONTAL
         starView.layoutManager = linearLayout
@@ -119,7 +123,7 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
         })
     }
 
-    fun setPayAlbumAdapter() {
+    private fun setPayAlbumAdapter() {
         val gridLayoutManager =
             GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
         payAlbumView.layoutManager = gridLayoutManager
@@ -128,7 +132,7 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
     }
 
 
-    fun setColumnAdpater(){
+    private fun setColumnAdpater(){
         val linearLayoutManager = LinearLayoutManager(context)
         linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         columnView.layoutManager = linearLayoutManager
@@ -146,6 +150,12 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
         })
     }
 
+    private fun setSortAdapter(){
+        sortTab.setupWithViewPager(sortView)
+        skillSortAdpater = HomeSkillSortPagerAdapter(childFragmentManager)
+        sortView.adapter = skillSortAdpater
+    }
+
     /**
      * 加载数据
      */
@@ -156,6 +166,8 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
         presenter?.getStarData()
         //加载精品专辑列表数据
         presenter?.getPayAlbumData()
+        //加载数据分类标签
+        presenter?.getSkillSort()
     }
 
     /**
@@ -181,6 +193,13 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
     override fun onPayAlbumDataLoad(data: List<PayAlbumData>) {
         payAlbumAdapter?.addData(data)
         columnAdapter?.addData(data)
+    }
+
+    /**
+     * 获取技术分类标签列表
+     */
+    override fun onSkillSortDataLoad(data: List<SkillSortData>) {
+        skillSortAdpater?.addData(data)
     }
 
     /**

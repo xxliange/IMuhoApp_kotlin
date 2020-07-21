@@ -13,4 +13,8 @@ interface IHomePagerPresenter {
      * 获取精品专辑列表数据
      */
     fun getPayAlbumData()
+    /**
+     * 获取技术分类标签
+     */
+    fun getSkillSort()
 }
