@@ -51,11 +51,11 @@ class HomeFragment : BaseFragment<HomePresenterImpl>(), IHomeCallback {
         switchUiByState(PageState.SUCCESS)
         val statusBarHeight = Utils.getStatusBarHeight(context)
         home_tab_container.setPadding(0, statusBarHeight, 0, 20)
-        tabList.add(0)
-        tabList.add(1)
-
+        if (tabList.size <2){
+            tabList.add(0)
+            tabList.add(1)
+        }
         homeTab.setupWithViewPager(homeView)
-
         homePagerAdapter = HomePagerAdapter(childFragmentManager)
         homeView.adapter = homePagerAdapter
         homePagerAdapter?.addData(tabList)
