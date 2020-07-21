@@ -7,8 +7,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.muhoapp.R
 import com.muhoapp.model.domin.home.StarData
+import jp.wasabeef.glide.transformations.CropCircleTransformation
 
 class HomeStarListAdapter : RecyclerView.Adapter<HomeStarListAdapter.InnerHolder>() {
 
@@ -17,7 +21,15 @@ class HomeStarListAdapter : RecyclerView.Adapter<HomeStarListAdapter.InnerHolder
     class InnerHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindNormalContent(itemData: StarData) {
             itemView.findViewById<TextView>(R.id.item_home_star_name).text = itemData.name
-            Glide.with(itemView.context).load(itemData.avatar).placeholder(R.drawable.placeholder).into(itemView.findViewById(R.id.item_home_star_avatar))
+            Glide.with(itemView.context)
+                .load(itemData.avatar)
+                .apply(RequestOptions.bitmapTransform(CircleCrop()))
+                .placeholder(R.drawable.placeholder)
+                .into(itemView.findViewById(R.id.item_home_star_avatar))
+            Glide.with(itemView.context)
+                .load(itemData.symbolpic)
+                .placeholder(R.drawable.placeholder)
+                .into(itemView.findViewById(R.id.item_home_star_sy))
         }
 
     }
