@@ -40,7 +40,7 @@ open class RetrofitManger {
     }
 
     companion object {
-        const val BASE_URL = BaseConfig.BASE_URL_TEST
+        const val BASE_URL = BaseConfig.BASE_URL
         var instance: RetrofitManger? = null
             get() {
                 if (field == null) {

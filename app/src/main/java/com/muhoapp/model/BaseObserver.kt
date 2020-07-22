@@ -7,7 +7,7 @@ import io.reactivex.disposables.Disposable
 abstract class BaseObserver<T> : Observer<BaseResponse<T>>  {
     private val TAG = "BaseObserver"
     override fun onComplete() {
-        Log.e(TAG, "onComplete")
+        Log.i(TAG, "onComplete")
     }
 
     override fun onNext(t: BaseResponse<T>) {
@@ -22,10 +22,10 @@ abstract class BaseObserver<T> : Observer<BaseResponse<T>>  {
     protected abstract fun onSuccess(data: T)
 
     override fun onError(e: Throwable) {
-        Log.e(TAG, "onError${e.message}")
+        Log.d(TAG, "onError${e.message}")
     }
 
     override fun onSubscribe(d: Disposable) {
-        Log.e(TAG, "onSubscribe")
+        Log.d(TAG, "onSubscribe")
     }
 }

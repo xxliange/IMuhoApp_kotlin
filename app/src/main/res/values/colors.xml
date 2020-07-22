@@ -11,4 +11,5 @@
     <color name="colorTextLow">#909090</color>
     <color name="colorItemBack">#e49550</color>
     <color name="colorMain">#f7c695</color>
+    <color name="colorRed">#F80000</color>
 </resources>

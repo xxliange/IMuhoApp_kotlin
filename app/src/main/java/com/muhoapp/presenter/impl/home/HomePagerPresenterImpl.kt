@@ -3,10 +3,7 @@ package com.muhoapp.presenter.impl.home
 import android.util.Log
 import com.muhoapp.base.IBaseViewPresenter
 import com.muhoapp.model.BaseObserver
-import com.muhoapp.model.domin.home.BannerData
-import com.muhoapp.model.domin.home.PayAlbumData
-import com.muhoapp.model.domin.home.SkillSortData
-import com.muhoapp.model.domin.home.StarData
+import com.muhoapp.model.domin.home.*
 import com.muhoapp.presenter.presenterInterface.IHomePagerPresenter
 import com.muhoapp.utils.RetrofitManger
 import com.muhoapp.view.home.IHomePagerCallback
@@ -86,6 +83,24 @@ class HomePagerPresenterImpl: IHomePagerPresenter, IBaseViewPresenter<IHomePager
                     for (callback in callbacks){
                         callback.onSkillSortDataLoad(data)
                     }
+                }
+
+            })
+    }
+
+    override fun getPrivateTeach() {
+        RetrofitManger.instance!!.getApi()
+            .getPrivateTeach(1)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : BaseObserver<List<PrivateTeachData>>(){
+                override fun onSuccess(data: List<PrivateTeachData>) {
+                    for(callback in callbacks){
+                        callback.onPrivateTeachDataLoad(data)
+                    }
+                }
+
+                override fun onFailure(e: Throwable?, message: String) {
                 }
 
             })

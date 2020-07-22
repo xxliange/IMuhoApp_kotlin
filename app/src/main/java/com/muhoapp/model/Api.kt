@@ -27,4 +27,10 @@ interface Api {
 
     @GET("searchContent")
     fun getSkillContent(@Query("keywords") keywords: String , @Query("l") l : Int, @Query("type") type : Int) : Observable<BaseResponse<List<SkillContentData>>>
+
+    @GET("getPrivateWorkouts")
+    fun getPrivateTeach(@Query("l") l : Int) : Observable<BaseResponse<List<PrivateTeachData>>>
+
+    @GET("hotlist")
+    fun getUpDateContent(@Query("l") l : Int) : Observable<BaseResponse<List<UpdateData>>>
 }

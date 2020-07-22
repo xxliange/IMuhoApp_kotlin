@@ -60,7 +60,6 @@ class HomeSkillSortFragment : BaseFragment<HomeSkillSortPresenterImpl>(), IHomeS
     override fun onSkillSortContentDataLoad(data: List<SkillContentData>,kw:String) {
         if (kw === arguments?.getString(SKILLSORT_KW_KEY)){
             skillContentAdapter?.addData(data)
-            LogUtils.d(this, "data --> $data")
         }
     }
 

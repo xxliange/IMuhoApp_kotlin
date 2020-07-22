@@ -63,23 +63,6 @@
                     android:text="教学" />
             </FrameLayout>
             <FrameLayout
-                android:id="@+id/navigation_vip"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:src="@drawable/nav_vip" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_gravity="bottom"
-                    android:gravity="center"
-                    android:textColor="@color/main_nav_color"
-                    android:text="VIP" />
-            </FrameLayout>
-            <FrameLayout
                 android:id="@+id/navigation_mine"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"

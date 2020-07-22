@@ -3,6 +3,7 @@ package com.muhoapp.utils
 import com.muhoapp.presenter.impl.home.HomePagerPresenterImpl
 import com.muhoapp.presenter.impl.home.HomePresenterImpl
 import com.muhoapp.presenter.impl.home.HomeSkillSortPresenterImpl
+import com.muhoapp.presenter.impl.home.HomeUpDatePresenterImpl
 
 object PresenterManager {
     private val homePresenter: HomePresenterImpl by lazy {
@@ -27,5 +28,13 @@ object PresenterManager {
 
     fun getHomeSkillSortPresenterImpl(): HomeSkillSortPresenterImpl {
         return homeSkillSortPresenter
+    }
+
+    private val homeUpDatePresenter: HomeUpDatePresenterImpl by lazy {
+        HomeUpDatePresenterImpl()
+    }
+
+    fun getHomeUpDatePresenterImpl(): HomeUpDatePresenterImpl {
+        return homeUpDatePresenter
     }
 }

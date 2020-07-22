@@ -53,10 +53,11 @@
             android:ellipsize="end"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
             android:textColor="@color/colorBlack"
             android:textStyle="bold"
-            />
+            android:textSize="11sp"
+            tools:ignore="SmallSp" />
     </LinearLayout>
 </LinearLayout>

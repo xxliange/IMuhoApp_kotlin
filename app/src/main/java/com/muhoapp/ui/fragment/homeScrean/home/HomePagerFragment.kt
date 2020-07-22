@@ -16,6 +16,7 @@ import com.muhoapp.presenter.impl.home.HomePagerPresenterImpl
 import com.muhoapp.ui.adapter.home.*
 import com.muhoapp.utils.PresenterManager
 import com.muhoapp.view.home.IHomePagerCallback
+import com.muhoapp.view.utils.LogUtils
 
 class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCallback {
 
@@ -36,6 +37,9 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
 
     @BindView(R.id.home_column_view)
     lateinit var columnView : RecyclerView
+
+    @BindView(R.id.home_private_teach_view)
+    lateinit var privateTeachView : RecyclerView
 
     @BindView(R.id.home_sort_tab)
     lateinit var sortTab : TabLayout
@@ -86,6 +90,7 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
     private var payAlbumAdapter: HomePayAlbumListAdapter? = null
     private var columnAdapter : HomeColumnAdapter? = null
     private var skillSortAdpater : HomeSkillSortPagerAdapter? = null
+    private var privateTeachAdapter : HomePrivateTeachAdapter? = null
 
     /**
      * 初始化view
@@ -98,6 +103,7 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
         setPayAlbumAdapter()
         setColumnAdpater()
         setSortAdapter()
+        setPrivateTeachAdapter()
     }
 
     private fun setLooperAdapter() {
@@ -150,6 +156,24 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
         })
     }
 
+    private fun setPrivateTeachAdapter(){
+        val linearLayoutManager = LinearLayoutManager(context)
+        linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        privateTeachView.layoutManager = linearLayoutManager
+        privateTeachAdapter = HomePrivateTeachAdapter()
+        privateTeachView.adapter = privateTeachAdapter
+        privateTeachView.addItemDecoration(object : RecyclerView.ItemDecoration(){
+            override fun getItemOffsets(
+                outRect: Rect,
+                view: View,
+                parent: RecyclerView,
+                state: RecyclerView.State
+            ) {
+                outRect.right = 30
+            }
+        })
+    }
+
     private fun setSortAdapter(){
         sortTab.setupWithViewPager(sortView)
         skillSortAdpater = HomeSkillSortPagerAdapter(childFragmentManager)
@@ -168,6 +192,8 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
         presenter?.getPayAlbumData()
         //加载数据分类标签
         presenter?.getSkillSort()
+        //加载私人训练数据
+        presenter?.getPrivateTeach()
     }
 
     /**
@@ -200,6 +226,13 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
      */
     override fun onSkillSortDataLoad(data: List<SkillSortData>) {
         skillSortAdpater?.addData(data)
+    }
+
+    /**
+     * 获取私人训练数据
+     */
+    override fun onPrivateTeachDataLoad(data: List<PrivateTeachData>) {
+        privateTeachAdapter?.addData(data)
     }
 
     /**

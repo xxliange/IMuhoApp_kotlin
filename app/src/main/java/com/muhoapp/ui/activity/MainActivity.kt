@@ -91,9 +91,9 @@ class MainActivity : BaseActivity<Any>(), View.OnClickListener, IActivityForFrag
             R.id.navigation_teach -> {
                 setUpFragment(FragmentCreator.INDEX_TEACH, null)
             }
-            R.id.navigation_vip -> {
-                setUpFragment(FragmentCreator.INDEX_VIP, null)
-            }
+//            R.id.navigation_vip -> {
+//                setUpFragment(FragmentCreator.INDEX_VIP, null)
+//            }
 //            R.id.navigation_hot -> {
 //                setUpFragment(FragmentCreator.INDEX_HOT, null)
 //            }

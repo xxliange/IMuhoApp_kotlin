@@ -19,4 +19,8 @@ interface IHomePagerCallback {
      * 获取技术分类标签
      */
     fun onSkillSortDataLoad(data : List<SkillSortData>)
+    /**
+     * 获取私人训练
+     */
+    fun onPrivateTeachDataLoad(data : List<PrivateTeachData>)
 }

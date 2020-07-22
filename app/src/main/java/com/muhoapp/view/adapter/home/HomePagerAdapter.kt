@@ -51,8 +51,10 @@ class HomePagerAdapter(fm: FragmentManager) :
     fun getTabView(i: Int, context: Context?): View {
         val view = LayoutInflater.from(context).inflate(R.layout.item_home_tab, null)
         title = view.findViewById(R.id.item_home_tab_title)
+        val red = view.findViewById<View>(R.id.item_home_tab_red)
         if (i == 0) {
             title.text = "推荐"
+            red.visibility = View.GONE
         }else{
             title.text="最新更新"
         }

@@ -64,7 +64,7 @@ class HomeFragment : BaseFragment<HomePresenterImpl>(), IHomeCallback {
         for (i in 0 until tabCount) {
             val tabAt = homeTab.getTabAt(i)
             if (tabAt !== null) {
-                tabAt.setCustomView(homePagerAdapter!!.getTabView(i, context))
+                tabAt.customView = homePagerAdapter!!.getTabView(i, context)
             }
         }
 //        mAlbumInfoPagerAdapter = new AlbumInfoPagerAdapter(getChildFragmentManager());
