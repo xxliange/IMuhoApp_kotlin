@@ -12,9 +12,9 @@
         app:srlEnablePreviewInEditMode="true">
         <!--srlAccentColor srlPrimaryColor 将会改变 Header 和 Footer 的主题颜色-->
         <!--srlEnablePreviewInEditMode 可以开启和关闭预览功能-->
-<!--        <com.scwang.smart.refresh.header.ClassicsHeader-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"/>-->
+        <com.scwang.smart.refresh.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/teach_pager_view"
             android:layout_width="match_parent"

@@ -64,6 +64,9 @@ class TeachPagerFragment : BaseFragment<TeachPagerPresenterImpl>(), ITeachPagerC
 
     override fun bindEvent() {
         presenter?.registerViewCallback(this)
+        teachPagerViewRefresh.setOnRefreshListener{
+            it.finishRefresh()
+        }
         teachPagerViewRefresh.setOnLoadMoreListener {
             when (arguments?.getInt(TEACH_TYPE)) {
                 0 -> {
