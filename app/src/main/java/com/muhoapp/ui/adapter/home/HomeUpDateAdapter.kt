@@ -54,4 +54,8 @@ class HomeUpDateAdapter : RecyclerView.Adapter<HomeUpDateAdapter.InnerHolder>() 
         mData.addAll(data)
         notifyItemRangeChanged(oldSize,data.size)
     }
+
+    fun cleanData() {
+        mData.clear()
+    }
 }

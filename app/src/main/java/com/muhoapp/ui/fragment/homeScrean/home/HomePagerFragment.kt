@@ -240,7 +240,19 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
      */
     override fun release() {
         presenter?.unregisterViewCallback(this)
+
         looperAdapter?.cleanData()
         looperAdapter = null
+        starAdapter?.cleanData()
+        starAdapter = null
+        payAlbumAdapter?.cleanData()
+        payAlbumAdapter = null
+        columnAdapter?.cleanData()
+        columnAdapter = null
+        skillSortAdpater?.cleanData()
+        skillSortAdpater = null
+        privateTeachAdapter?.cleanData()
+        privateTeachAdapter = null
+
     }
 }

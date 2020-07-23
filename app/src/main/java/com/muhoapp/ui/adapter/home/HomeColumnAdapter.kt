@@ -56,4 +56,8 @@ class HomeColumnAdapter : RecyclerView.Adapter<HomeColumnAdapter.InnerHolder>() 
         mData.addAll(data)
         notifyDataSetChanged()
     }
+
+    fun cleanData() {
+        mData.clear()
+    }
 }

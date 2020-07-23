@@ -27,4 +27,8 @@ class HomeSkillSortPagerAdapter(fm:FragmentManager) : FragmentPagerAdapter(fm,
         mData.addAll(data)
         notifyDataSetChanged()
     }
+
+    fun cleanData() {
+        mData.clear()
+    }
 }

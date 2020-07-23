@@ -43,4 +43,8 @@ class HomePrivateTeachAdapter : RecyclerView.Adapter<HomePrivateTeachAdapter.Inn
         mData.addAll(data)
         notifyDataSetChanged()
     }
+
+    fun cleanData() {
+        mData.clear()
+    }
 }

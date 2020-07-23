@@ -55,6 +55,7 @@
             android:paddingEnd="4dp"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
+            android:gravity="center"
             android:textColor="@color/colorBlack"
             android:textStyle="bold"
             android:textSize="11sp"

@@ -64,4 +64,8 @@ class HomeStarListAdapter : RecyclerView.Adapter<HomeStarListAdapter.InnerHolder
         mData.addAll(data)
         notifyDataSetChanged()
     }
+
+    fun cleanData() {
+        mData.clear()
+    }
 }

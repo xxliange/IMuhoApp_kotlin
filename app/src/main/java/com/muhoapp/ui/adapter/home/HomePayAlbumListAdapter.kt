@@ -45,4 +45,8 @@ class HomePayAlbumListAdapter : RecyclerView.Adapter<HomePayAlbumListAdapter.Inn
         mData.addAll(data)
         notifyDataSetChanged()
     }
+
+    fun cleanData() {
+        mData.clear()
+    }
 }

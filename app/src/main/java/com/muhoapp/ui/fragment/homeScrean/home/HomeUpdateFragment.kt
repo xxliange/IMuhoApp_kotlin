@@ -73,7 +73,12 @@ class HomeUpdateFragment : BaseFragment<HomeUpDatePresenterImpl>(), IHomeUpDateC
     override fun onLoadMoreUpDateContent(data: List<UpdateData>) {
         refreshLayout.finishLoadMore()
         upDateAdapter?.addMoreData(data)
+    }
 
+    override fun release() {
+        presenter?.unregisterViewCallback(this)
+        upDateAdapter?.cleanData()
+        upDateAdapter = null
     }
 
 }
