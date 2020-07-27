@@ -1,7 +1,9 @@
 package com.muhoapp.ui.fragment.homeScrean.home
 
+import android.content.Context.MODE_PRIVATE
 import android.graphics.Rect
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,18 +11,22 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import butterknife.BindView
 import com.google.android.material.tabs.TabLayout
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.muhoapp.R
 import com.muhoapp.base.BaseFragment
 import com.muhoapp.model.domin.home.*
 import com.muhoapp.presenter.impl.home.HomePagerPresenterImpl
 import com.muhoapp.ui.adapter.home.*
+import com.muhoapp.utils.CacheUtils
 import com.muhoapp.utils.PresenterManager
+import com.muhoapp.utils.SaveSharePreferences
 import com.muhoapp.view.home.IHomePagerCallback
 import com.muhoapp.view.utils.LogUtils
+import java.lang.reflect.Type
 
 class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCallback {
 
-    private val TAG = "HomePagerFragment"
     private var mData = ArrayList<BannerData>()
 
     @BindView(R.id.home_looper_title)
@@ -36,16 +42,19 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
     lateinit var payAlbumView: RecyclerView
 
     @BindView(R.id.home_column_view)
-    lateinit var columnView : RecyclerView
+    lateinit var columnView: RecyclerView
 
     @BindView(R.id.home_private_teach_view)
-    lateinit var privateTeachView : RecyclerView
+    lateinit var privateTeachView: RecyclerView
 
     @BindView(R.id.home_sort_tab)
-    lateinit var sortTab : TabLayout
+    lateinit var sortTab: TabLayout
 
     @BindView(R.id.home_sort_view)
-    lateinit var sortView : ViewPager
+    lateinit var sortView: ViewPager
+
+    @BindView(R.id.home_del_cache)
+    lateinit var btn : Button
 
     override fun getSubPresenter(): HomePagerPresenterImpl? {
         return PresenterManager.getHomePagerPresenterImpl()
@@ -83,14 +92,17 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
             }
 
         })
+        btn.setOnClickListener{
+            CacheUtils.deleteFileByDir(CacheUtils.CacheType.PREFERENCES,context)
+        }
     }
 
     private var looperAdapter: HomeLooperPagerAdapter? = null
     private var starAdapter: HomeStarListAdapter? = null
     private var payAlbumAdapter: HomePayAlbumListAdapter? = null
-    private var columnAdapter : HomeColumnAdapter? = null
-    private var skillSortAdpater : HomeSkillSortPagerAdapter? = null
-    private var privateTeachAdapter : HomePrivateTeachAdapter? = null
+    private var columnAdapter: HomeColumnAdapter? = null
+    private var skillSortAdpater: HomeSkillSortPagerAdapter? = null
+    private var privateTeachAdapter: HomePrivateTeachAdapter? = null
 
     /**
      * 初始化view
@@ -104,6 +116,10 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
         setColumnAdpater()
         setSortAdapter()
         setPrivateTeachAdapter()
+
+        SaveSharePreferences.initSP(context, "homeData")
+        LogUtils.d(this, CacheUtils.getCacheSize(context))
+//        CacheUtils.deleteFileByDir(CacheUtils.CacheType.PREFERENCES,context)
     }
 
     private fun setLooperAdapter() {
@@ -138,13 +154,13 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
     }
 
 
-    private fun setColumnAdpater(){
+    private fun setColumnAdpater() {
         val linearLayoutManager = LinearLayoutManager(context)
         linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         columnView.layoutManager = linearLayoutManager
         columnAdapter = HomeColumnAdapter()
         columnView.adapter = columnAdapter
-        columnView.addItemDecoration(object : RecyclerView.ItemDecoration(){
+        columnView.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
                 outRect: Rect,
                 view: View,
@@ -156,13 +172,13 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
         })
     }
 
-    private fun setPrivateTeachAdapter(){
+    private fun setPrivateTeachAdapter() {
         val linearLayoutManager = LinearLayoutManager(context)
         linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         privateTeachView.layoutManager = linearLayoutManager
         privateTeachAdapter = HomePrivateTeachAdapter()
         privateTeachView.adapter = privateTeachAdapter
-        privateTeachView.addItemDecoration(object : RecyclerView.ItemDecoration(){
+        privateTeachView.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
                 outRect: Rect,
                 view: View,
@@ -174,7 +190,7 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
         })
     }
 
-    private fun setSortAdapter(){
+    private fun setSortAdapter() {
         sortTab.setupWithViewPager(sortView)
         skillSortAdpater = HomeSkillSortPagerAdapter(childFragmentManager)
         sortView.adapter = skillSortAdpater
@@ -184,12 +200,43 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
      * 加载数据
      */
     override fun loadData() {
-        //加载banner图数据
-        presenter?.getLooperData()
-        //加载球星数据
-        presenter?.getStarData()
-        //加载精品专辑列表数据
-        presenter?.getPayAlbumData()
+        val gs = Gson()
+        val listBannerData = SaveSharePreferences.getListData("bannerData")
+        val listStarData = SaveSharePreferences.getListData("starData")
+        val listPayAlbumData = SaveSharePreferences.getListData("payAlbumData")
+
+        if (listBannerData == null) {
+            presenter?.getLooperData()
+            //加载banner图数据
+        } else {
+            val bannerJsonData = gs.fromJson<List<BannerData>>(
+                listBannerData,
+                object : TypeToken<List<BannerData>>() {}.type
+            )
+            setLooperAdapterData(bannerJsonData)
+        }
+
+        if (listStarData == null) {
+            presenter?.getStarData()
+            //加载球星数据
+        } else {
+            val starJsonData = gs.fromJson<List<StarData>>(
+                listStarData,
+                object : TypeToken<List<StarData>>() {}.type
+            )
+            setStarAdapterData(starJsonData)
+        }
+
+        if (listPayAlbumData == null) {
+            //加载精品专辑列表数据
+            presenter?.getPayAlbumData()
+        } else {
+            val payAlbumData = gs.fromJson<List<PayAlbumData>>(listPayAlbumData,
+                object : TypeToken<List<PayAlbumData>>() {}.type
+            )
+            setPayAlbumAdapterData(payAlbumData)
+        }
+
         //加载数据分类标签
         presenter?.getSkillSort()
         //加载私人训练数据
@@ -200,9 +247,14 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
      * 获取首页banner图数据
      */
     override fun onLooperDataLoad(data: List<BannerData>) {
+        SaveSharePreferences.saveListData("bannerData", data)
+        setLooperAdapterData(data)
+    }
+
+    private fun setLooperAdapterData(data: List<BannerData>) {
         mData.clear()
         mData.addAll(data)
-        looperTitle.text = data.get(0).title
+        looperTitle.text = data[0].title
         looperAdapter?.addData(data)
     }
 
@@ -210,6 +262,11 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
      * 获取球星数据
      */
     override fun onStarDataLoad(data: List<StarData>) {
+        SaveSharePreferences.saveListData("starData", data)
+        setStarAdapterData(data)
+    }
+
+    private fun setStarAdapterData(data: List<StarData>) {
         starAdapter?.addData(data)
     }
 
@@ -217,6 +274,11 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
      * 获取精品专辑列表数据
      */
     override fun onPayAlbumDataLoad(data: List<PayAlbumData>) {
+        SaveSharePreferences.saveListData("payAlbumData", data)
+        setPayAlbumAdapterData(data)
+    }
+
+    private fun setPayAlbumAdapterData(data: List<PayAlbumData>) {
         payAlbumAdapter?.addData(data)
         columnAdapter?.addData(data)
     }

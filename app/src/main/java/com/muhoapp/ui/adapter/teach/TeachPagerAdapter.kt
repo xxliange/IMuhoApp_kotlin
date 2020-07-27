@@ -1,16 +1,20 @@
 package com.muhoapp.ui.adapter.teach
 
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
 import com.muhoapp.ui.fragment.homeScrean.teach.TeachPagerFragment
 import com.muhoapp.view.utils.LogUtils
-import java.util.ArrayList
+import java.util.*
 
 class TeachPagerAdapter(fm: FragmentManager) :
     FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     private var mData = ArrayList<Int>()
     override fun getItem(position: Int): Fragment {
+        LogUtils.d(this, "position --> $position getItem")
         val type = mData[position]
         return TeachPagerFragment.newInstance(type)
     }
@@ -41,5 +45,12 @@ class TeachPagerAdapter(fm: FragmentManager) :
         mData.clear()
         mData.addAll(tabList)
         notifyDataSetChanged()
+    }
+
+    override fun isViewFromObject(view: View, `object`: Any): Boolean {
+        return super.isViewFromObject(view, `object`)
+    }
+
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
     }
 }
