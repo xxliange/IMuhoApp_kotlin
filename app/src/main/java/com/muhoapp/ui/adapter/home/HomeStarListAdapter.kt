@@ -24,18 +24,18 @@ class HomeStarListAdapter : RecyclerView.Adapter<HomeStarListAdapter.InnerHolder
     class InnerHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindNormalContent(itemData: StarData) {
             itemView.findViewById<TextView>(R.id.item_home_star_name).text = itemData.name
-            itemView.findViewById<LinearLayout>(R.id.item_home_star_view).setBackgroundResource(R.drawable.item_home_star_avatar_back)
-            val background : GradientDrawable = itemView.findViewById<LinearLayout>(R.id.item_home_star_view).background as GradientDrawable
-            background.setColor(Color.parseColor(itemData.theme))
+//            itemView.findViewById<LinearLayout>(R.id.item_home_star_view).setBackgroundResource(R.drawable.item_home_star_avatar_back)
+//            val background : GradientDrawable = itemView.findViewById<LinearLayout>(R.id.item_home_star_view).background as GradientDrawable
+//            background.setColor(Color.parseColor(itemData.theme))
             Glide.with(itemView.context)
                 .load(itemData.avatar)
-                .apply(RequestOptions.bitmapTransform(CircleCrop()))
+//                .apply(RequestOptions.bitmapTransform(CircleCrop()))
                 .placeholder(R.drawable.placeholder)
                 .into(itemView.findViewById(R.id.item_home_star_avatar))
-            Glide.with(itemView.context)
-                .load(itemData.symbolpic)
-                .placeholder(R.drawable.placeholder)
-                .into(itemView.findViewById(R.id.item_home_star_sy))
+//            Glide.with(itemView.context)
+//                .load(itemData.symbolpic)
+//                .placeholder(R.drawable.placeholder)
+//                .into(itemView.findViewById(R.id.item_home_star_sy))
         }
 
     }

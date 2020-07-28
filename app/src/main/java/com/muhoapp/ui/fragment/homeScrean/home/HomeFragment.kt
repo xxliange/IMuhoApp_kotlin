@@ -23,6 +23,7 @@ import com.muhoapp.utils.Utils
 import com.muhoapp.view.adapter.home.HomeLooperAdapter
 import com.muhoapp.view.adapter.home.HomePagerAdapter
 import com.muhoapp.view.home.IHomeCallback
+import com.muhoapp.view.utils.LogUtils
 
 class HomeFragment : BaseFragment<HomePresenterImpl>(), IHomeCallback {
 
@@ -127,6 +128,23 @@ class HomeFragment : BaseFragment<HomePresenterImpl>(), IHomeCallback {
                 va!!.duration = 100
                 va!!.start()
             }
+        })
+
+        homeView.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+            override fun onPageScrollStateChanged(state: Int) {
+            }
+
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                LogUtils.d(this, "position --> $position --- positionOffset --> $positionOffset --- positionOffsetPixels --> $positionOffsetPixels")
+            }
+
+            override fun onPageSelected(position: Int) {
+            }
+
         })
     }
 

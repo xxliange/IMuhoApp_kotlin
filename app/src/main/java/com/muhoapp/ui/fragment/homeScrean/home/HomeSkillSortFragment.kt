@@ -2,6 +2,8 @@ package com.muhoapp.ui.fragment.homeScrean.home
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
@@ -19,6 +21,9 @@ class HomeSkillSortFragment : BaseFragment<HomeSkillSortPresenterImpl>(), IHomeS
 
     @BindView(R.id.home_skillSort_view)
     lateinit var contentView : RecyclerView
+
+    @BindView(R.id.home_skillSort_btn)
+    lateinit var btn : TextView
 
     override fun getSubPresenter(): HomeSkillSortPresenterImpl? {
         return PresenterManager.getHomeSkillSortPresenterImpl()
@@ -41,6 +46,9 @@ class HomeSkillSortFragment : BaseFragment<HomeSkillSortPresenterImpl>(), IHomeS
 
     override fun bindEvent() {
         presenter?.registerViewCallback(this)
+        btn.setOnClickListener{
+            LogUtils.d(this, "onClick")
+        }
     }
 
     private var skillContentAdapter : HomeSkillContentAdapter? = null

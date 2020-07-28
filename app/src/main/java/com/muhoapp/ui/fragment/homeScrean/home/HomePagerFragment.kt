@@ -2,8 +2,13 @@ package com.muhoapp.ui.fragment.homeScrean.home
 
 import android.content.Context.MODE_PRIVATE
 import android.graphics.Rect
+import android.util.DisplayMetrics
 import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,8 +26,11 @@ import com.muhoapp.ui.adapter.home.*
 import com.muhoapp.utils.CacheUtils
 import com.muhoapp.utils.PresenterManager
 import com.muhoapp.utils.SaveSharePreferences
+import com.muhoapp.utils.Utils
 import com.muhoapp.view.home.IHomePagerCallback
 import com.muhoapp.view.utils.LogUtils
+import com.scwang.smart.refresh.layout.api.RefreshLayout
+import java.io.File
 import java.lang.reflect.Type
 
 class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCallback {
@@ -55,6 +63,14 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
 
     @BindView(R.id.home_del_cache)
     lateinit var btn : Button
+
+    @BindView(R.id.refreshLayout)
+    lateinit var refreshLayout : RefreshLayout
+
+    @BindView(R.id.home_looper_container)
+    lateinit var looperContainer : RelativeLayout
+
+    private var windowManager : WindowManager? = null
 
     override fun getSubPresenter(): HomePagerPresenterImpl? {
         return PresenterManager.getHomePagerPresenterImpl()
@@ -119,6 +135,18 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
 
         SaveSharePreferences.initSP(context, "homeData")
         LogUtils.d(this, CacheUtils.getCacheSize(context))
+
+        windowManager = activity?.windowManager
+        val displayMetrics = DisplayMetrics()
+        windowManager?.defaultDisplay?.getMetrics(displayMetrics)
+        val widthPixels = displayMetrics.widthPixels
+        LogUtils.d(this, "${Utils.px2dip(context!!,widthPixels.toFloat())}")
+
+        val marginLayoutParams = ViewGroup.MarginLayoutParams(looperContainer.layoutParams)
+        val layoutParams = LinearLayout.LayoutParams(marginLayoutParams)
+        layoutParams.height = widthPixels/2
+        looperContainer.layoutParams = layoutParams
+
 //        CacheUtils.deleteFileByDir(CacheUtils.CacheType.PREFERENCES,context)
     }
 
@@ -209,6 +237,7 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
             presenter?.getLooperData()
             //加载banner图数据
         } else {
+//            refreshLayout.autoRefresh()
             val bannerJsonData = gs.fromJson<List<BannerData>>(
                 listBannerData,
                 object : TypeToken<List<BannerData>>() {}.type

@@ -2,11 +2,11 @@ package com.muhoapp.ui.adapter.home
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
 import com.muhoapp.model.domin.home.SkillSortData
 import com.muhoapp.ui.fragment.homeScrean.home.HomeSkillSortFragment
 
-class HomeSkillSortPagerAdapter(fm:FragmentManager) : FragmentPagerAdapter(fm,
+class HomeSkillSortPagerAdapter(fm:FragmentManager) : FragmentStatePagerAdapter(fm,
     BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     private var mData = ArrayList<SkillSortData>()
     override fun getItem(position: Int): Fragment {
