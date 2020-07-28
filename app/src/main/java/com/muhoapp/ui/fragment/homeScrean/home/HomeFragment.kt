@@ -139,7 +139,7 @@ class HomeFragment : BaseFragment<HomePresenterImpl>(), IHomeCallback {
                 positionOffset: Float,
                 positionOffsetPixels: Int
             ) {
-                LogUtils.d(this, "position --> $position --- positionOffset --> $positionOffset --- positionOffsetPixels --> $positionOffsetPixels")
+//                LogUtils.d(this, "position --> $position --- positionOffset --> $positionOffset --- positionOffsetPixels --> $positionOffsetPixels")
             }
 
             override fun onPageSelected(position: Int) {

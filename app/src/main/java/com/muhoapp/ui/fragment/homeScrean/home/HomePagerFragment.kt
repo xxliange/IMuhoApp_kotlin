@@ -1,10 +1,13 @@
 package com.muhoapp.ui.fragment.homeScrean.home
 
+import android.animation.ValueAnimator
 import android.content.Context.MODE_PRIVATE
 import android.graphics.Rect
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.*
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.LinearLayout
@@ -30,6 +33,7 @@ import com.muhoapp.utils.Utils
 import com.muhoapp.view.home.IHomePagerCallback
 import com.muhoapp.view.utils.LogUtils
 import com.scwang.smart.refresh.layout.api.RefreshLayout
+import okhttp3.internal.Util
 import java.io.File
 import java.lang.reflect.Type
 
@@ -59,18 +63,24 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
     lateinit var sortTab: TabLayout
 
     @BindView(R.id.home_sort_view)
-    lateinit var sortView: ViewPager
+    lateinit var sortView: RecyclerView
 
     @BindView(R.id.home_del_cache)
-    lateinit var btn : Button
+    lateinit var btn: Button
 
     @BindView(R.id.refreshLayout)
-    lateinit var refreshLayout : RefreshLayout
+    lateinit var refreshLayout: RefreshLayout
 
     @BindView(R.id.home_looper_container)
-    lateinit var looperContainer : RelativeLayout
+    lateinit var looperContainer: RelativeLayout
 
-    private var windowManager : WindowManager? = null
+    @BindView(R.id.home_skillSort_btn)
+    lateinit var skillSortBtn: TextView
+
+    private var windowManager: WindowManager? = null
+    private var viewOldHeight: Int = 0
+    private var va : ValueAnimator? = null
+    private var sortContentData = ArrayList<SkillContentData>()
 
     override fun getSubPresenter(): HomePagerPresenterImpl? {
         return PresenterManager.getHomePagerPresenterImpl()
@@ -108,16 +118,30 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
             }
 
         })
-        btn.setOnClickListener{
-            CacheUtils.deleteFileByDir(CacheUtils.CacheType.PREFERENCES,context)
+        btn.setOnClickListener {
+            CacheUtils.deleteFileByDir(CacheUtils.CacheType.PREFERENCES, context)
         }
+        sortTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                val title = tab?.text
+                presenter?.getSkillSortContent(title.toString())
+            }
+        })
     }
 
     private var looperAdapter: HomeLooperPagerAdapter? = null
     private var starAdapter: HomeStarListAdapter? = null
     private var payAlbumAdapter: HomePayAlbumListAdapter? = null
     private var columnAdapter: HomeColumnAdapter? = null
-    private var skillSortAdpater: HomeSkillSortPagerAdapter? = null
+    private var skillSortAdapter: HomeSkillSortPagerAdapter? = null
     private var privateTeachAdapter: HomePrivateTeachAdapter? = null
 
     /**
@@ -134,17 +158,17 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
         setPrivateTeachAdapter()
 
         SaveSharePreferences.initSP(context, "homeData")
-        LogUtils.d(this, CacheUtils.getCacheSize(context))
+//        LogUtils.d(this, CacheUtils.getCacheSize(context))
 
         windowManager = activity?.windowManager
         val displayMetrics = DisplayMetrics()
         windowManager?.defaultDisplay?.getMetrics(displayMetrics)
         val widthPixels = displayMetrics.widthPixels
-        LogUtils.d(this, "${Utils.px2dip(context!!,widthPixels.toFloat())}")
+//        LogUtils.d(this, "${Utils.px2dip(context!!, widthPixels.toFloat())}")
 
-        val marginLayoutParams = ViewGroup.MarginLayoutParams(looperContainer.layoutParams)
+        val marginLayoutParams = MarginLayoutParams(looperContainer.layoutParams)
         val layoutParams = LinearLayout.LayoutParams(marginLayoutParams)
-        layoutParams.height = widthPixels/2
+        layoutParams.height = widthPixels / 2
         looperContainer.layoutParams = layoutParams
 
 //        CacheUtils.deleteFileByDir(CacheUtils.CacheType.PREFERENCES,context)
@@ -178,7 +202,7 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
             GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
         payAlbumView.layoutManager = gridLayoutManager
         payAlbumAdapter = HomePayAlbumListAdapter()
-        payAlbumView.setAdapter(payAlbumAdapter)
+        payAlbumView.adapter = payAlbumAdapter
     }
 
 
@@ -195,7 +219,7 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
                 parent: RecyclerView,
                 state: RecyclerView.State
             ) {
-                outRect.right = 30
+//                outRect.right = 10
             }
         })
     }
@@ -213,15 +237,15 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
                 parent: RecyclerView,
                 state: RecyclerView.State
             ) {
-                outRect.right = 30
+//                outRect.right = 10
             }
         })
     }
 
     private fun setSortAdapter() {
-        sortTab.setupWithViewPager(sortView)
-        skillSortAdpater = HomeSkillSortPagerAdapter(childFragmentManager)
-        sortView.adapter = skillSortAdpater
+        skillSortAdapter = HomeSkillSortPagerAdapter()
+        sortView.adapter = skillSortAdapter
+        sortView.layoutManager = LinearLayoutManager(context)
     }
 
     /**
@@ -260,7 +284,8 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
             //加载精品专辑列表数据
             presenter?.getPayAlbumData()
         } else {
-            val payAlbumData = gs.fromJson<List<PayAlbumData>>(listPayAlbumData,
+            val payAlbumData = gs.fromJson<List<PayAlbumData>>(
+                listPayAlbumData,
                 object : TypeToken<List<PayAlbumData>>() {}.type
             )
             setPayAlbumAdapterData(payAlbumData)
@@ -316,7 +341,57 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
      * 获取技术分类标签列表
      */
     override fun onSkillSortDataLoad(data: List<SkillSortData>) {
-        skillSortAdpater?.addData(data)
+        data.indices.forEach {
+            sortTab.addTab(sortTab.newTab().setText(data[it].keyword))
+        }
+        presenter?.getSkillSortContent(data[0].keyword)
+    }
+
+    /**
+     * 获取技术分类内容
+     */
+    override fun onSkillSortContentDataLoad(data: List<SkillContentData>) {
+        sortContentData.clear()
+        sortContentData.addAll(data)
+        /**
+         * 动态修改高度
+         */
+        val itemHeight = 100
+        val viewHeight: Int
+        viewHeight = if (data.size < 4) {
+            itemHeight * data.size
+        } else {
+            itemHeight * 4
+        }
+
+//        LogUtils.d(this,"${sortContentData.size}")
+        val starHeight = sortView.computeVerticalScrollRange()
+        val endHeight = Utils.dp2px(context!!, viewHeight.toFloat()).toInt()
+        va = ValueAnimator.ofInt(starHeight,endHeight)
+        va?.addUpdateListener {
+            val animatedValue = it.animatedValue as Int
+            sortView.layoutParams.height = animatedValue
+            sortView.requestLayout()
+            LogUtils.d(this, "$animatedValue")
+        }
+        va?.duration = 200
+        va?.start()
+
+//        sortView.layoutParams.height =  Utils.dp2px(context!!, viewHeight.toFloat()).toInt()
+//        sortView.requestLayout()
+        /**
+         * 设置是否有查看更多按钮
+         */
+        if (data.size < 4) {
+            skillSortBtn.visibility = View.GONE
+        } else {
+            skillSortBtn.visibility = View.VISIBLE
+        }
+        /**
+         * 适配器添加数据
+         */
+        skillSortAdapter?.addData(data)
+//        LogUtils.d(this, "${sortView.computeVerticalScrollRange()} --- ${sortView.layoutParams.height}")
     }
 
     /**
@@ -340,10 +415,11 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
         payAlbumAdapter = null
         columnAdapter?.cleanData()
         columnAdapter = null
-        skillSortAdpater?.cleanData()
-        skillSortAdpater = null
+        skillSortAdapter?.cleanData()
+        skillSortAdapter = null
         privateTeachAdapter?.cleanData()
         privateTeachAdapter = null
+        va?.end()
 
     }
 }

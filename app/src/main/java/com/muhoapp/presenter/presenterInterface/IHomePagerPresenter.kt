@@ -18,6 +18,10 @@ interface IHomePagerPresenter {
      */
     fun getSkillSort()
     /**
+     * 获取技术分类内容
+     */
+    fun getSkillSortContent(kw: String)
+    /**
      * 获取私人训练数据
      */
     fun getPrivateTeach()

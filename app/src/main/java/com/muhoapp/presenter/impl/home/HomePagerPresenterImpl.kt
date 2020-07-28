@@ -88,6 +88,25 @@ class HomePagerPresenterImpl: IHomePagerPresenter, IBaseViewPresenter<IHomePager
             })
     }
 
+    override fun getSkillSortContent(kw:String) {
+        RetrofitManger.instance!!.getApi()
+            .getSkillContent(kw, 1, 1)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : BaseObserver<List<SkillContentData>>() {
+                override fun onFailure(e: Throwable?, message: String) {
+                }
+
+                override fun onSuccess(data: List<SkillContentData>) {
+//                    handlerContentResponse(data,kw)
+                    for(callback in callbacks){
+                        callback.onSkillSortContentDataLoad(data)
+                    }
+
+                }
+            })
+    }
+
     override fun getPrivateTeach() {
         RetrofitManger.instance!!.getApi()
             .getPrivateTeach(1)

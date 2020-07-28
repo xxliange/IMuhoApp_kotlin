@@ -20,6 +20,10 @@ interface IHomePagerCallback {
      */
     fun onSkillSortDataLoad(data : List<SkillSortData>)
     /**
+     * 获取技术分类内容
+     */
+    fun onSkillSortContentDataLoad(data : List<SkillContentData>)
+    /**
      * 获取私人训练
      */
     fun onPrivateTeachDataLoad(data : List<PrivateTeachData>)
