@@ -132,8 +132,8 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 val title = tab?.text
-                val aa = AlphaAnimation(0F, 1.0F)
-                aa.duration = 400
+                val aa = AlphaAnimation(1.0F, 0F)
+                aa.duration = 200
                 aa.fillAfter = true
                 sortView.startAnimation(aa)
                 presenter?.getSkillSortContent(title.toString())
@@ -371,6 +371,10 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
     override fun onSkillSortContentDataLoad(data: List<SkillContentData>) {
         sortContentData.clear()
         sortContentData.addAll(data)
+        val aa = AlphaAnimation(0F, 1.0F)
+        aa.duration = 200
+        aa.fillAfter = true
+        sortView.startAnimation(aa)
         /**
          * 动态修改高度
          */
