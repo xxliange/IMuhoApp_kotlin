@@ -31,8 +31,8 @@
                     android:id="@+id/home_del_cache"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:text="清除缓存" />
+                    android:text="清除缓存"
+                    android:visibility="gone" />
 
                 <RelativeLayout
                     android:id="@+id/home_looper_container"
@@ -83,34 +83,16 @@
                     android:paddingTop="10dp"
                     android:paddingEnd="0dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <View
-                            android:layout_width="2.5dp"
-                            android:layout_height="24dp"
-                            android:background="@color/mainColor" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
-                            android:text="球星专区"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
+                    <include
+                        android:id="@+id/home_star_title"
+                        layout="@layout/include_home_item_title" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/home_star_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:overScrollMode="never"
-                        android:layout_marginTop="10dp" />
+                        android:layout_marginTop="10dp"
+                        android:overScrollMode="never" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -121,26 +103,9 @@
                     android:paddingStart="10dp"
                     android:paddingEnd="0dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <View
-                            android:layout_width="2.5dp"
-                            android:layout_height="24dp"
-                            android:background="@color/mainColor" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
-                            android:text="精品教学"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                    <include
+                        android:id="@+id/home_payAlbum_title"
+                        layout="@layout/include_home_item_title" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/home_payAlbum_view"
@@ -158,33 +123,16 @@
                     android:paddingStart="10dp"
                     android:paddingEnd="0dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <View
-                            android:layout_width="2.5dp"
-                            android:layout_height="24dp"
-                            android:background="@color/mainColor" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
-                            android:text="推荐专栏"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                    <include
+                        android:id="@+id/home_column_title"
+                        layout="@layout/include_home_item_title" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/home_column_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:overScrollMode="never"
-                        android:layout_marginTop="10dp" />
+                        android:layout_marginTop="10dp"
+                        android:overScrollMode="never" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -195,33 +143,16 @@
                     android:paddingStart="10dp"
                     android:paddingEnd="0dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <View
-                            android:layout_width="2.5dp"
-                            android:layout_height="24dp"
-                            android:background="@color/mainColor" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
-                            android:text="私人训练"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                    <include
+                        android:id="@+id/home_private_teach_title"
+                        layout="@layout/include_home_item_title" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/home_private_teach_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:overScrollMode="never"
-                        android:layout_marginTop="10dp" />
+                        android:layout_marginTop="10dp"
+                        android:overScrollMode="never" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -229,29 +160,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:orientation="vertical"
+                    android:paddingTop="10dp"
                     android:paddingStart="10dp"
+                    android:background="@android:color/background_light"
+                    android:elevation="2dp"
                     android:paddingEnd="0dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <View
-                            android:layout_width="2.5dp"
-                            android:layout_height="24dp"
-                            android:background="@color/mainColor" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
-                            android:text="技术分类"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                    <include
+                        android:id="@+id/home_sort_title"
+                        layout="@layout/include_home_item_title" />
 
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/home_sort_tab"
@@ -270,39 +187,52 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/home_sort_view"
-                        android:overScrollMode="never"
                         android:layout_width="match_parent"
-                        android:background="@color/colorGrey"
-                        android:layout_height="0dp" />
+                        android:layout_height="0dp"
+                        android:overScrollMode="never"
+                        android:background="@android:color/transparent"/>
+
                     <LinearLayout
+                        android:id="@+id/home_skillSort_btn_container"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:visibility="gone">
+
                         <TextView
                             android:id="@+id/home_skillSort_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
                             android:layout_gravity="center"
+                            android:background="@drawable/shape_home_skill_more"
+                            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
+                            android:gravity="center"
+                            android:paddingStart="10dp"
+                            android:paddingTop="4dp"
+                            android:paddingEnd="6dp"
+                            android:paddingBottom="4dp"
                             android:text="查看更多"
                             android:textColor="@color/colorTextLow"
-                            android:paddingStart="10dp"
-                            android:paddingEnd="6dp"
-                            android:paddingTop="4dp"
-                            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
-                            android:paddingBottom="4dp"
-                            android:visibility="gone"
-                            android:background="@drawable/shape_home_skill_more"/>
+                             />
                     </LinearLayout>
-<!--                    <androidx.viewpager.widget.ViewPager-->
-<!--                        android:id="@+id/home_sort_view"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="460dp" />-->
+                </LinearLayout>
 
-<!--                                        <com.muhoapp.ui.views.SkillSortViewPager-->
-<!--                                            android:id="@+id/home_sort_view"-->
-<!--                                            android:layout_width="match_parent"-->
-<!--                                            android:layout_height="460dp" />-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="0dp">
+                    <include
+                        android:id="@+id/home_follow_title"
+                        layout="@layout/include_home_item_title" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/home_follow_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:overScrollMode="never" />
                 </LinearLayout>
 
             </LinearLayout>

@@ -1,14 +1,12 @@
 package com.muhoapp.ui.fragment.homeScrean.home
 
 import android.animation.ValueAnimator
-import android.content.Context.MODE_PRIVATE
 import android.graphics.Rect
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import android.view.ViewGroup.*
+import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowManager
+import android.view.animation.AlphaAnimation
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -31,11 +29,7 @@ import com.muhoapp.utils.PresenterManager
 import com.muhoapp.utils.SaveSharePreferences
 import com.muhoapp.utils.Utils
 import com.muhoapp.view.home.IHomePagerCallback
-import com.muhoapp.view.utils.LogUtils
 import com.scwang.smart.refresh.layout.api.RefreshLayout
-import okhttp3.internal.Util
-import java.io.File
-import java.lang.reflect.Type
 
 class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCallback {
 
@@ -52,6 +46,9 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
 
     @BindView(R.id.home_payAlbum_view)
     lateinit var payAlbumView: RecyclerView
+
+    @BindView(R.id.home_follow_view)
+    lateinit var followView : RecyclerView
 
     @BindView(R.id.home_column_view)
     lateinit var columnView: RecyclerView
@@ -76,6 +73,9 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
 
     @BindView(R.id.home_skillSort_btn)
     lateinit var skillSortBtn: TextView
+
+    @BindView(R.id.home_skillSort_btn_container)
+    lateinit var skillSortBtnContainer : LinearLayout
 
     private var windowManager: WindowManager? = null
     private var viewOldHeight: Int = 0
@@ -132,6 +132,10 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 val title = tab?.text
+                val aa = AlphaAnimation(0F, 1.0F)
+                aa.duration = 400
+                aa.fillAfter = true
+                sortView.startAnimation(aa)
                 presenter?.getSkillSortContent(title.toString())
             }
         })
@@ -158,20 +162,31 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
         setPrivateTeachAdapter()
 
         SaveSharePreferences.initSP(context, "homeData")
-//        LogUtils.d(this, CacheUtils.getCacheSize(context))
 
         windowManager = activity?.windowManager
         val displayMetrics = DisplayMetrics()
         windowManager?.defaultDisplay?.getMetrics(displayMetrics)
         val widthPixels = displayMetrics.widthPixels
-//        LogUtils.d(this, "${Utils.px2dip(context!!, widthPixels.toFloat())}")
 
         val marginLayoutParams = MarginLayoutParams(looperContainer.layoutParams)
         val layoutParams = LinearLayout.LayoutParams(marginLayoutParams)
         layoutParams.height = widthPixels / 2
         looperContainer.layoutParams = layoutParams
 
-//        CacheUtils.deleteFileByDir(CacheUtils.CacheType.PREFERENCES,context)
+        setItemTitle(rootView)
+
+    }
+
+    /**
+     * 设置每个块的标题
+     */
+    private fun setItemTitle(rootView: View){
+        rootView.findViewById<LinearLayout>(R.id.home_star_title).findViewById<TextView>(R.id.include_home_item_text).text = "球星专区"
+        rootView.findViewById<LinearLayout>(R.id.home_payAlbum_title).findViewById<TextView>(R.id.include_home_item_text).text = "精品教学"
+        rootView.findViewById<LinearLayout>(R.id.home_private_teach_title).findViewById<TextView>(R.id.include_home_item_text).text = "私人训练"
+        rootView.findViewById<LinearLayout>(R.id.home_sort_title).findViewById<TextView>(R.id.include_home_item_text).text = "技术分类"
+        rootView.findViewById<LinearLayout>(R.id.home_follow_title).findViewById<TextView>(R.id.include_home_item_text).text = "幕后跟拍"
+        rootView.findViewById<LinearLayout>(R.id.home_column_title).findViewById<TextView>(R.id.include_home_item_text).text = "推荐专栏"
     }
 
     private fun setLooperAdapter() {
@@ -200,8 +215,11 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
     private fun setPayAlbumAdapter() {
         val gridLayoutManager =
             GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
+        val gridLayoutManager1 = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
         payAlbumView.layoutManager = gridLayoutManager
+        followView.layoutManager = gridLayoutManager1
         payAlbumAdapter = HomePayAlbumListAdapter()
+        followView.adapter = payAlbumAdapter
         payAlbumView.adapter = payAlbumAdapter
     }
 
@@ -363,8 +381,6 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
         } else {
             itemHeight * 4
         }
-
-//        LogUtils.d(this,"${sortContentData.size}")
         val starHeight = sortView.computeVerticalScrollRange()
         val endHeight = Utils.dp2px(context!!, viewHeight.toFloat()).toInt()
         va = ValueAnimator.ofInt(starHeight,endHeight)
@@ -372,26 +388,21 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
             val animatedValue = it.animatedValue as Int
             sortView.layoutParams.height = animatedValue
             sortView.requestLayout()
-            LogUtils.d(this, "$animatedValue")
         }
         va?.duration = 200
         va?.start()
-
-//        sortView.layoutParams.height =  Utils.dp2px(context!!, viewHeight.toFloat()).toInt()
-//        sortView.requestLayout()
         /**
          * 设置是否有查看更多按钮
          */
         if (data.size < 4) {
-            skillSortBtn.visibility = View.GONE
+            skillSortBtnContainer.visibility = View.GONE
         } else {
-            skillSortBtn.visibility = View.VISIBLE
+            skillSortBtnContainer.visibility = View.VISIBLE
         }
         /**
          * 适配器添加数据
          */
         skillSortAdapter?.addData(data)
-//        LogUtils.d(this, "${sortView.computeVerticalScrollRange()} --- ${sortView.layoutParams.height}")
     }
 
     /**
@@ -406,7 +417,6 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
      */
     override fun release() {
         presenter?.unregisterViewCallback(this)
-
         looperAdapter?.cleanData()
         looperAdapter = null
         starAdapter?.cleanData()
@@ -420,6 +430,5 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
         privateTeachAdapter?.cleanData()
         privateTeachAdapter = null
         va?.end()
-
     }
 }
