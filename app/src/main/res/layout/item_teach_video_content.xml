@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_teach_video_content_title_container"
+    android:layout_width="68dp"
+    android:layout_height="36dp"
+    android:orientation="vertical"
+    android:background="@drawable/item_teach_video_content_titlebck"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/item_teach_video_vip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="会员"
+            android:textSize="8sp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:paddingTop="1dp"
+            android:paddingBottom="1dp"
+            android:layout_alignParentEnd="true"
+            tools:ignore="SmallSp"
+            android:textColor="@color/colorWhite"
+            android:visibility="gone"
+            android:background="@drawable/shape_video_list_vip"/>
+        <TextView
+            android:id="@+id/item_teach_video_content_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@color/colorBlack" />
+    </RelativeLayout>
+</LinearLayout>

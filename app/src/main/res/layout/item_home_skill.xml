@@ -55,6 +55,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/item_home_skill_title"
                 app:layout_constraintLeft_toLeftOf="parent"/>
             <TextView
+                android:id="@+id/item_home_skill_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"

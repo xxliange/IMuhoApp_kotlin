@@ -183,7 +183,8 @@
                         app:tabMode="scrollable"
                         app:tabPaddingEnd="8dp"
                         app:tabPaddingStart="12dp"
-                        app:tabRippleColor="@android:color/transparent" />
+                        app:tabRippleColor="@android:color/transparent"
+                        android:overScrollMode="never"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/home_sort_view"

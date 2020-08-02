@@ -3,6 +3,8 @@ package com.muhoapp.model
 import com.muhoapp.model.domin.home.*
 import com.muhoapp.model.domin.teach.NewTeachData
 import com.muhoapp.model.domin.teach.SubjectTeachData
+import com.muhoapp.model.domin.video.TeachVideoListData
+import com.muhoapp.model.domin.video.TeachVideoMoreRandom
 import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.http.GET
@@ -54,4 +56,10 @@ interface Api {
         @Query("l") l: Int,
         @Query("type") type: Int
     ): Observable<BaseResponse<List<SubjectTeachData>>>
+
+    @GET("webHomeGraudeBySetNumber")
+    fun getTeachVideoListData(@Query("sid") sid: Int): Observable<BaseResponse<List<TeachVideoListData>>>
+
+    @GET("webHomeSubjectByRandom")
+    fun getTeachVideoMoreRandom() : Observable<BaseResponse<List<TeachVideoMoreRandom>>>
 }
