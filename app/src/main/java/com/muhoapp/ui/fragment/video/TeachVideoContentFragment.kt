@@ -1,15 +1,12 @@
 package com.muhoapp.ui.fragment.video
 
 import android.graphics.Rect
-import android.util.DisplayMetrics
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.view.marginRight
-import androidx.recyclerview.widget.GridLayoutManager
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
@@ -19,17 +16,18 @@ import com.muhoapp.R
 import com.muhoapp.base.BaseFragment
 import com.muhoapp.model.domin.video.TeachVideoListData
 import com.muhoapp.model.domin.video.TeachVideoMoreRandom
+import com.muhoapp.model.domin.video.VideoCollectInfo
 import com.muhoapp.presenter.impl.video.TeachVideoPresenterImpl
-import com.muhoapp.ui.adapter.video.TeachVideoContentCountAdapter
 import com.muhoapp.ui.adapter.video.TeachVideoContentCountViewPagerAdapter
 import com.muhoapp.ui.adapter.video.TeachVideoContentListAdapter
 import com.muhoapp.ui.adapter.video.TeachVideoMoreRandomAdapter
 import com.muhoapp.utils.PresenterManager
-import com.muhoapp.utils.Utils
 import com.muhoapp.view.teach.ITeachVideoCallback
-import com.muhoapp.view.utils.LogUtils
-import okhttp3.internal.Util
 import java.text.MessageFormat
+
+/**
+ * 普通教学视频fragment
+ */
 
 class TeachVideoContentFragment : BaseFragment<TeachVideoPresenterImpl>(), ITeachVideoCallback {
 
@@ -53,22 +51,30 @@ class TeachVideoContentFragment : BaseFragment<TeachVideoPresenterImpl>(), ITeac
     @BindView(R.id.teach_video_content_random_view)
     lateinit var randomView: RecyclerView
 
-    private var mCid = 0
-
-//    @BindView(R.id.teach_video_content_countList)
-//    lateinit var countView: RecyclerView
-
     @BindView(R.id.teach_video_content_count_view)
-    lateinit var countView : ViewPager
+    lateinit var countView: ViewPager
 
     @BindView(R.id.teach_Video_content_count_tab)
-    lateinit var countTab : TabLayout
+    lateinit var countTab: TabLayout
 
     @BindView(R.id.teach_video_content_count_closebtn)
     lateinit var countCloseBtn: ImageView
 
     @BindView(R.id.teach_video_content_count_container)
     lateinit var countContainer: LinearLayout
+
+    @BindView(R.id.teach_video_content_collect_num)
+    lateinit var collectNum: TextView
+
+    @BindView(R.id.teach_video_content_collect_img)
+    lateinit var collectImg: ImageView
+
+    @BindView(R.id.teach_video_content_collect_btn)
+    lateinit var collectBtn: LinearLayout
+
+    private var mCid = 0
+    private var mCollectNum = 0
+    private var mTeachVideoInfo: TeachVideoListData? = null
 
     private var windowManager: WindowManager? = null
     override fun getSubPresenter(): TeachVideoPresenterImpl? {
@@ -81,8 +87,10 @@ class TeachVideoContentFragment : BaseFragment<TeachVideoPresenterImpl>(), ITeac
 
     private var teachVideoContentAdapter: TeachVideoContentListAdapter? = null
     private var teachVideoMoreRandomAdapter: TeachVideoMoreRandomAdapter? = null
-//    private var teachVideoContentCountAdapter: TeachVideoContentCountAdapter? = null
-    private var teachVideoContentCountViewPageAdapter : TeachVideoContentCountViewPagerAdapter? = null
+
+    //    private var teachVideoContentCountAdapter: TeachVideoContentCountAdapter? = null
+    private var teachVideoContentCountViewPageAdapter: TeachVideoContentCountViewPagerAdapter? =
+        null
 
 
     override fun initView(rootView: View) {
@@ -112,37 +120,16 @@ class TeachVideoContentFragment : BaseFragment<TeachVideoPresenterImpl>(), ITeac
         randomView.layoutManager = LinearLayoutManager(context)
 
         countTab.setupWithViewPager(countView)
-        teachVideoContentCountViewPageAdapter = TeachVideoContentCountViewPagerAdapter(childFragmentManager)
+        teachVideoContentCountViewPageAdapter =
+            TeachVideoContentCountViewPagerAdapter(childFragmentManager)
         countView.adapter = teachVideoContentCountViewPageAdapter
         teachVideoContentCountViewPageAdapter?.addData(countTabList)
-
-//        teachVideoContentCountAdapter = TeachVideoContentCountAdapter()
-//        countView.adapter = teachVideoContentCountAdapter
-//        countView.layoutManager = GridLayoutManager(context, 4, RecyclerView.VERTICAL, false)
-//        countView.addItemDecoration(object : RecyclerView.ItemDecoration() {
-//            override fun getItemOffsets(
-//                outRect: Rect,
-//                view: View,
-//                parent: RecyclerView,
-//                state: RecyclerView.State
-//            ) {
-//                outRect.bottom = Utils.dp2px(context!!, 10F).toInt()
-//                windowManager = activity?.windowManager
-//                val displayMetrics = DisplayMetrics()
-//                windowManager?.defaultDisplay?.getMetrics(displayMetrics)
-//                val widthPixels = displayMetrics.widthPixels
-//
-//                LogUtils.d(this, "widthPixels --> ${widthPixels / 4}")
-//                LogUtils.d(this, "width --> ${Utils.dp2px(context!!, (widthPixels / 4).toFloat())}")
-//                view.layoutParams.width = (widthPixels / 4) - 40
-//                view.requestLayout()
-//            }
-//        })
     }
 
     override fun loadData() {
         presenter?.getTeachVideoListData()
         presenter?.getTeachVideoMoreRandom()
+//        presenter?.getViewVideo()
     }
 
     override fun bindEvent() {
@@ -159,12 +146,18 @@ class TeachVideoContentFragment : BaseFragment<TeachVideoPresenterImpl>(), ITeac
         teachVideoContentAdapter?.setOnItemClickListener(object :
             TeachVideoContentListAdapter.OnItemClickListener {
             override fun onItemClick(data: TeachVideoListData, pos: Int) {
+                mTeachVideoInfo = data
                 teachVideoContentAdapter?.choseItem(pos)
                 setVideoInfo(data, null)
                 mCid = data.cid
+                presenter?.getVideoCollect(mCid)
             }
-
         })
+
+        collectBtn.setOnClickListener {
+            val cid = mTeachVideoInfo?.cid
+            presenter?.getVideoUserCollect(cid!!, 2, 3)
+        }
 
     }
 
@@ -176,6 +169,8 @@ class TeachVideoContentFragment : BaseFragment<TeachVideoPresenterImpl>(), ITeac
         listMoreBtn.text = MessageFormat.format("全{0}集,查看详情", data.size)
         teachVideoContentAdapter?.addData(data)
         teachVideoContentCountViewPageAdapter?.addListData(data)
+        presenter?.getVideoCollect(data[0].cid)
+        mTeachVideoInfo = data[0]
 //        teachVideoContentCountAdapter?.addData(data)
     }
 
@@ -184,6 +179,37 @@ class TeachVideoContentFragment : BaseFragment<TeachVideoPresenterImpl>(), ITeac
      */
     override fun onLoadTeachMoreRandom(data: List<TeachVideoMoreRandom>) {
         teachVideoMoreRandomAdapter?.addData(data)
+    }
+
+    override fun onLoadViewVideoSuccess() {
+    }
+
+    /**
+     * 获取视频收藏数和用户收藏状态
+     */
+    override fun onLoadVideoCollect(data: VideoCollectInfo) {
+        mCollectNum = data.collectNum
+        collectNum.text = mCollectNum.toString()
+        collectImg.isSelected = data.isCollect
+        if (data.isCollect) {
+            collectNum.setTextColor(resources.getColor(R.color.mainColor, null))
+        } else {
+            collectNum.setTextColor(resources.getColor(R.color.colorTextLow, null))
+        }
+    }
+
+    override fun onLoadVideoUserCollect(msg: String) {
+        if (msg == "取消收藏成功") {
+            collectImg.isSelected = false
+            mCollectNum -= 1
+            collectNum.setTextColor(resources.getColor(R.color.colorTextLow, null))
+        } else if (msg == "收藏成功") {
+            collectImg.isSelected = true
+            mCollectNum += 1
+            collectNum.setTextColor(resources.getColor(R.color.mainColor, null))
+        }
+        collectNum.text = mCollectNum.toString()
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
     }
 
     private fun setVideoInfo(data: TeachVideoListData, size: Int?) {

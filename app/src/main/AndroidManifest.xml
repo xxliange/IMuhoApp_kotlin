@@ -11,7 +11,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.fragment.video.PayAlbumVideoActivity"
@@ -21,11 +25,12 @@
         <activity
             android:name=".ui.fragment.video.TeachVideoActivity"
             android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.video.HomeUpDateVideoActivity"
+            android:launchMode="singleTop">
+
         </activity>
     </application>
 

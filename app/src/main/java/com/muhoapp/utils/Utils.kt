@@ -1,6 +1,8 @@
 package com.muhoapp.utils
 
+import android.app.Activity
 import android.content.Context
+import android.util.DisplayMetrics
 import android.util.TypedValue
 
 object Utils {
@@ -26,6 +28,19 @@ object Utils {
     fun px2dip(context: Context, pxValue: Float): Int {
         val scale = context.resources.displayMetrics.density
         return (pxValue / scale + 0.5f).toInt()
+    }
 
+    fun getPixels(activity:Activity, type : String) : Int{
+        val displayMetrics =  DisplayMetrics()
+        activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
+        when(type){
+            "width" ->{
+                return displayMetrics.widthPixels
+            }
+            "height" ->{
+                return displayMetrics.heightPixels
+            }
+        }
+        return 0
     }
 }

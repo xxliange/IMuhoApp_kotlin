@@ -34,19 +34,13 @@ class TeachVideoActivity : BaseActivity<Any>() {
         head.layoutParams.height = statusBarHeight
         head.requestLayout()
 
-
-        val displayMetrics = DisplayMetrics()
-        windowManager?.defaultDisplay?.getMetrics(displayMetrics)
-        val widthPixels = displayMetrics.widthPixels
-
-        myVideo.layoutParams.height = widthPixels*9/16
+        myVideo.layoutParams.height = Utils.getPixels(this,"width")*9/16
         myVideo.requestLayout()
 
         supportFragmentManager.beginTransaction().add(R.id.activity_teachVideo_fragment,TeachVideoContentFragment()).commit()
-        initVideo()
     }
 
-    private fun initVideo(){
+    fun initVideo(){
         val url = "https://m.muho.tv/bXVob1RW_1580917204.mp4"
         val header: MutableMap<String, String> =
             HashMap()

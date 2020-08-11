@@ -139,6 +139,16 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
                 presenter?.getSkillSortContent(title.toString())
             }
         })
+        refreshLayout.setOnRefreshListener{
+            presenter?.getLooperData()
+            presenter?.getStarData()
+            presenter?.getPayAlbumData()
+            //加载数据分类标签
+            presenter?.getSkillSort()
+            //加载私人训练数据
+            presenter?.getPrivateTeach()
+            it.finishRefresh()
+        }
     }
 
     private var looperAdapter: HomeLooperPagerAdapter? = null

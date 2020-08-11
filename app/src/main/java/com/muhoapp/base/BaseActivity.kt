@@ -24,6 +24,7 @@ abstract class BaseActivity<T> : FragmentActivity() {
         initListener()
         //初始化数据加载
         bindData()
+        //如果是视频页面 初始化视频
     }
 
     abstract fun getSubPresenter(): T?

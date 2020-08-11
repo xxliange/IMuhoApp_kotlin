@@ -42,11 +42,9 @@ class PayAlbumVideoActivity : BaseActivity<Any>() {
 
         myVideo.layoutParams.height = widthPixels*9/16
         myVideo.requestLayout()
-
-        initVideo()
     }
 
-    private fun initVideo(){
+    fun initVideo(){
         val url = "https://m.muho.tv/bXVob1RW_1594268354.MP4"
         val header: MutableMap<String, String> =
             HashMap()

@@ -24,8 +24,8 @@ open class RetrofitManger {
         builder.addInterceptor {
             val original = it.request()
             val request = original.newBuilder()
-                .header("token","web")
-                .header("user-id","0")
+                .header("token","eyJtaWQiOiAxNDE0NjV9")
+                .header("user-id","141465")
                 .method(original.method(),original.body())
                 .build()
             it.proceed(request)
@@ -40,7 +40,8 @@ open class RetrofitManger {
     }
 
     companion object {
-        const val BASE_URL = BaseConfig.BASE_URL_TEST
+        const val BASE_URL = BaseConfig.BASE_URL
+//        const val BASE_URL = BaseConfig.BASE_URL_TEST
         var instance: RetrofitManger? = null
             get() {
                 if (field == null) {

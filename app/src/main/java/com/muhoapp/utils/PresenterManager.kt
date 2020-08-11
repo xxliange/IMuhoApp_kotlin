@@ -5,6 +5,7 @@ import com.muhoapp.presenter.impl.home.HomePresenterImpl
 import com.muhoapp.presenter.impl.home.HomeSkillSortPresenterImpl
 import com.muhoapp.presenter.impl.home.HomeUpDatePresenterImpl
 import com.muhoapp.presenter.impl.teach.TeachPagerPresenterImpl
+import com.muhoapp.presenter.impl.video.HomeUpdateVideoPresenterImpl
 import com.muhoapp.presenter.impl.video.TeachVideoPresenterImpl
 
 object PresenterManager {
@@ -54,5 +55,11 @@ object PresenterManager {
 
     fun getTeachVideoPresenterImpl() : TeachVideoPresenterImpl{
         return teachVideoPresenter
+    }
+    private val homeUpdateVideoPresenter : HomeUpdateVideoPresenterImpl by lazy {
+        HomeUpdateVideoPresenterImpl()
+    }
+    fun getHomeUpdateVideoPresenterImpl() : HomeUpdateVideoPresenterImpl{
+        return homeUpdateVideoPresenter
     }
 }

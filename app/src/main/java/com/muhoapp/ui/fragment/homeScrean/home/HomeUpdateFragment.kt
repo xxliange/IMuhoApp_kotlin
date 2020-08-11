@@ -1,6 +1,7 @@
 package com.muhoapp.ui.fragment.homeScrean.home
 
-import android.graphics.Rect
+import android.content.Intent
+import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -8,14 +9,12 @@ import butterknife.BindView
 import com.muhoapp.R
 import com.muhoapp.base.BaseFragment
 import com.muhoapp.model.domin.home.UpdateData
-import com.muhoapp.presenter.impl.home.HomePresenterImpl
 import com.muhoapp.presenter.impl.home.HomeUpDatePresenterImpl
+import com.muhoapp.ui.activity.video.HomeUpDateVideoActivity
 import com.muhoapp.ui.adapter.home.HomeUpDateAdapter
 import com.muhoapp.utils.PresenterManager
 import com.muhoapp.view.home.IHomeUpDateCallback
-import com.muhoapp.view.utils.LogUtils
 import com.scwang.smart.refresh.layout.api.RefreshLayout
-import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
 
 class HomeUpdateFragment : BaseFragment<HomeUpDatePresenterImpl>(), IHomeUpDateCallback {
     @BindView(R.id.home_update_view)
@@ -54,6 +53,16 @@ class HomeUpdateFragment : BaseFragment<HomeUpDatePresenterImpl>(), IHomeUpDateC
         refreshLayout.setOnRefreshListener{
             it.finishRefresh()
         }
+        upDateAdapter?.setOnItemClickListener(object : HomeUpDateAdapter.OnItemClickListener{
+            override fun onItemClick(item: UpdateData) {
+                val intent = Intent(context,HomeUpDateVideoActivity::class.java)
+                val bundle = Bundle()
+                bundle.putInt("cid",item.cid)
+                intent.putExtras(bundle)
+                context?.startActivity(intent)
+            }
+
+        })
     }
 
     override fun loadData() {
