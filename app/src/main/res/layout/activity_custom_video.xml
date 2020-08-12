@@ -119,37 +119,41 @@
         android:scaleType="centerInside"
         android:src="@drawable/unlock"
         android:visibility="gone" />
-
-    <LinearLayout
-        android:id="@+id/layout_top"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/back_tiny"
-        android:background="@drawable/video_title_bg"
-        android:gravity="center_vertical">
+        android:layout_toEndOf="@+id/back_tiny">
+        <LinearLayout
+            android:id="@+id/layout_top"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:paddingStart="48dp"
+            android:paddingEnd="0dp"
+            android:background="@drawable/video_title_bg">
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:gravity="left"
+                android:layout_weight="1"
+                android:paddingStart="0dp"
+                android:paddingEnd="10dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/back"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
             android:scaleType="centerInside"
-            android:src="@drawable/video_back"
-            />
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:gravity="left"
-            android:layout_weight="1"
-            android:paddingStart="0dp"
-            android:paddingEnd="10dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="@android:color/white"
-            android:textSize="14sp" />
-    </LinearLayout>
+            android:src="@drawable/video_back" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/preview_layout"

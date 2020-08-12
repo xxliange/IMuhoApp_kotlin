@@ -83,4 +83,16 @@ interface Api {
 
     @GET("webHomeVideoByRandom")
     fun getUpdateMoreVideo(): Observable<BaseResponse<List<HomeUpdateVideoMoreData>>>
+
+    @GET("getTeachingAlbumDetail")
+    fun getPayAlbumListData(@Query("sid") sid: Int): Observable<BaseResponse<List<PayAlbumVideoData>>>
+
+    @GET("getTeachingAlbumIntro")
+    fun getPayAlbumInfo(@Query("id") id: Int): Observable<BaseResponse<PayAlbumInfoData>>
+
+    @GET("getTeachingAlbumUserInfo")
+    fun getPayAlbumCollect(@Query("cid") cid: Int): Observable<BaseResponse<PayAlbumVideoCollectData>>
+
+    @GET("paidSubjectByRandom")
+    fun getPayAlbumMoreData(): Observable<BaseResponse<List<PayAlbumInfoMoreData>>>
 }

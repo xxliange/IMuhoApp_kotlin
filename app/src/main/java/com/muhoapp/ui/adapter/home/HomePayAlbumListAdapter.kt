@@ -11,10 +11,21 @@ import com.muhoapp.model.domin.home.PayAlbumData
 
 class HomePayAlbumListAdapter : RecyclerView.Adapter<HomePayAlbumListAdapter.InnerHolder>() {
     private var mData = ArrayList<PayAlbumData>()
-    class InnerHolder(itemView:View) : RecyclerView.ViewHolder(itemView){
+    private var onItemClickListener: OnItemClickListener? = null
+
+    interface OnItemClickListener {
+        fun onItemClick(data: PayAlbumData)
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        onItemClickListener = listener
+    }
+
+    class InnerHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindNormalContent(itemData: PayAlbumData) {
             itemView.findViewById<TextView>(R.id.item_normal_block_title).text = itemData.name
-            Glide.with(itemView.context).load(itemData.thumb).placeholder(R.drawable.placeholder).into(itemView.findViewById(R.id.item_normal_block_img))
+            Glide.with(itemView.context).load(itemData.thumb).placeholder(R.drawable.placeholder)
+                .into(itemView.findViewById(R.id.item_normal_block_img))
         }
     }
 
@@ -28,9 +39,9 @@ class HomePayAlbumListAdapter : RecyclerView.Adapter<HomePayAlbumListAdapter.Inn
     }
 
     override fun getItemCount(): Int {
-        return if (mData.size>=4){
+        return if (mData.size >= 4) {
             4
-        }else{
+        } else {
             mData.size
         }
     }
@@ -38,6 +49,9 @@ class HomePayAlbumListAdapter : RecyclerView.Adapter<HomePayAlbumListAdapter.Inn
     override fun onBindViewHolder(holder: HomePayAlbumListAdapter.InnerHolder, position: Int) {
         val itemData = mData[position]
         holder.bindNormalContent(itemData)
+        holder.itemView.setOnClickListener{
+            onItemClickListener?.onItemClick(itemData)
+        }
     }
 
     fun addData(data: List<PayAlbumData>) {

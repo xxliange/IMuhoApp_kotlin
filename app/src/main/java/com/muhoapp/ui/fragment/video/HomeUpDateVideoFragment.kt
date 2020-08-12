@@ -80,16 +80,6 @@ class HomeUpDateVideoFragment : BaseFragment<HomeUpdateVideoPresenterImpl>(),
         linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         tagView.layoutManager = linearLayoutManager
         tagView.adapter = videoTagAdapter
-        tagView.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(
-                outRect: Rect,
-                view: View,
-                parent: RecyclerView,
-                state: RecyclerView.State
-            ) {
-                outRect.right = 16
-            }
-        })
 
         videoMoreAdapter = HomeUpdateVideoMoreAdapter()
         moreView.layoutManager = LinearLayoutManager(context)

@@ -36,16 +36,6 @@ class HomeUpDateAdapter : RecyclerView.Adapter<HomeUpDateAdapter.InnerHolder>() 
             tagView.layoutManager = linearLayoutManager
             tagView.adapter = videoTagAdapter
             videoTagAdapter?.addData(itemData.tags)
-            tagView.addItemDecoration(object : RecyclerView.ItemDecoration(){
-                override fun getItemOffsets(
-                    outRect: Rect,
-                    view: View,
-                    parent: RecyclerView,
-                    state: RecyclerView.State
-                ) {
-                    outRect.right = 16
-                }
-            })
             Glide.with(itemView.context).load(itemData.thumb1).placeholder(R.drawable.placeholder)
                 .into(itemView.findViewById(R.id.item_update_thumb))
             itemView.findViewById<TextView>(R.id.item_update_view).text =

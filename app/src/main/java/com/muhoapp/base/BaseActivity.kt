@@ -24,7 +24,8 @@ abstract class BaseActivity<T> : FragmentActivity() {
         initListener()
         //初始化数据加载
         bindData()
-        //如果是视频页面 初始化视频
+        //activity添加fragment
+        addFragment()
     }
 
     abstract fun getSubPresenter(): T?
@@ -48,6 +49,10 @@ abstract class BaseActivity<T> : FragmentActivity() {
     }
 
     open fun initView() {
+
+    }
+
+    open fun addFragment() {
 
     }
 

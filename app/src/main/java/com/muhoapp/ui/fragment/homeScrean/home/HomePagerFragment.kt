@@ -1,7 +1,9 @@
 package com.muhoapp.ui.fragment.homeScrean.home
 
 import android.animation.ValueAnimator
+import android.content.Intent
 import android.graphics.Rect
+import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
@@ -24,11 +26,13 @@ import com.muhoapp.base.BaseFragment
 import com.muhoapp.model.domin.home.*
 import com.muhoapp.presenter.impl.home.HomePagerPresenterImpl
 import com.muhoapp.ui.adapter.home.*
+import com.muhoapp.ui.fragment.video.PayAlbumVideoActivity
 import com.muhoapp.utils.CacheUtils
 import com.muhoapp.utils.PresenterManager
 import com.muhoapp.utils.SaveSharePreferences
 import com.muhoapp.utils.Utils
 import com.muhoapp.view.home.IHomePagerCallback
+import com.muhoapp.view.utils.LogUtils
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 
 class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCallback {
@@ -149,6 +153,16 @@ class HomePagerFragment : BaseFragment<HomePagerPresenterImpl>(), IHomePagerCall
             presenter?.getPrivateTeach()
             it.finishRefresh()
         }
+        payAlbumAdapter?.setOnItemClickListener(object : HomePayAlbumListAdapter.OnItemClickListener{
+            override fun onItemClick(data: PayAlbumData) {
+                val intent = Intent(context, PayAlbumVideoActivity::class.java)
+                val bundle = Bundle()
+                bundle.putInt("sid",data.sid)
+                intent.putExtras(bundle)
+                startActivity(intent)
+            }
+
+        })
     }
 
     private var looperAdapter: HomeLooperPagerAdapter? = null
