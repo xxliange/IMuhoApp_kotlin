@@ -95,4 +95,13 @@ interface Api {
 
     @GET("paidSubjectByRandom")
     fun getPayAlbumMoreData(): Observable<BaseResponse<List<PayAlbumInfoMoreData>>>
+
+    @GET("getUserHistory")
+    fun getMineUserHistoryData(@Query("l") l: Int): Observable<BaseResponse<List<MineUserHistory>>>
+
+    @GET("getUserCollectList2")
+    fun getMineUserCollect(
+        @Query("l") l: Int,
+        @Query("types") type: Int
+    ): Observable<BaseResponse<List<MineUserCollect>>>
 }

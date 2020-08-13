@@ -4,6 +4,7 @@ import com.muhoapp.presenter.impl.home.HomePagerPresenterImpl
 import com.muhoapp.presenter.impl.home.HomePresenterImpl
 import com.muhoapp.presenter.impl.home.HomeSkillSortPresenterImpl
 import com.muhoapp.presenter.impl.home.HomeUpDatePresenterImpl
+import com.muhoapp.presenter.impl.mine.MinePresenterImpl
 import com.muhoapp.presenter.impl.teach.TeachPagerPresenterImpl
 import com.muhoapp.presenter.impl.video.HomeUpdateVideoPresenterImpl
 import com.muhoapp.presenter.impl.video.PayAlbumPresenterImpl
@@ -68,6 +69,12 @@ object PresenterManager {
     }
     fun getPayAlbumPresenterImpl() : PayAlbumPresenterImpl{
         return payAlbumPresenter
+    }
+    private val minePresenter : MinePresenterImpl by lazy {
+        MinePresenterImpl()
+    }
+    fun getMinePresenterImpl() : MinePresenterImpl{
+        return minePresenter
     }
 
 }

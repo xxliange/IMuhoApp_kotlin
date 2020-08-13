@@ -6,21 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.MainActivity">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <FrameLayout
+        android:id="@+id/page_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="60dp" />
 
-        <FrameLayout
-            android:id="@+id/page_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="60dp"/>
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true">
         <LinearLayout
             android:id="@+id/main_bottom_bar"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_alignParentBottom="true"
+
             android:layout_gravity="bottom"
             android:background="@color/colorWhite"
             android:orientation="horizontal">
@@ -34,15 +34,16 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:textColor="@color/main_nav_color"
-                    android:src="@drawable/home" />
+                    android:src="@drawable/home"
+                    android:textColor="@color/main_nav_color" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_gravity="bottom"
                     android:gravity="center"
-                    android:textColor="@color/main_nav_color"
-                    android:text="首页" />
+                    android:text="首页"
+                    android:textColor="@color/main_nav_color" />
             </FrameLayout>
 
             <FrameLayout
@@ -50,35 +51,46 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:src="@drawable/discover" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_gravity="bottom"
                     android:gravity="center"
-                    android:textColor="@color/main_nav_color"
-                    android:text="教学" />
+                    android:text="教学"
+                    android:textColor="@color/main_nav_color" />
             </FrameLayout>
+
             <FrameLayout
                 android:id="@+id/navigation_mine"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:src="@drawable/me" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_gravity="bottom"
                     android:gravity="center"
-                    android:textColor="@color/main_nav_color"
-                    android:text="我的" />
+                    android:text="我的"
+                    android:textColor="@color/main_nav_color" />
             </FrameLayout>
         </LinearLayout>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ebebeb"
+            android:layout_alignParentTop="true" />
+
+    </RelativeLayout>
 </RelativeLayout>
