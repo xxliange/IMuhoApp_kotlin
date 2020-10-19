@@ -65,7 +65,7 @@ class MineFragment : BaseFragment<MinePresenterImpl>(), IMineCallback {
                     R.drawable.ic_baseline_history_24,
                     null
                 ), null, null, null
-            )
+            )   
 
         rootView.findViewById<RelativeLayout>(R.id.mine_collect)
             .findViewById<TextView>(R.id.item_mine_list_title).text = "我的收藏"
